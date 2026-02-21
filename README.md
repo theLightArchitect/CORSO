@@ -68,7 +68,7 @@ plugin/
 ├── .mcp.json                    # MCP server definition
 ├── .claude-plugin/plugin.json   # Plugin manifest
 ├── agents/
-│   ├── C0RS0.md                 # Primary agent (personality, tools, protocol)
+│   ├── C0RS0.md                 # Primary agent (behavior, tools, protocol)
 │   └── TEAM-HELIX.md            # Squad consultation router
 ├── hooks/
 │   ├── hooks.json               # Hook registration (9 hooks)
