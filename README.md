@@ -40,13 +40,13 @@ flowchart TD
 
         subgraph DOMAIN ["Domain Routing — 24 Tools"]
             direction LR
-            D1(["guard"])
-            D2(["fetch"])
-            D3(["sniff"])
-            D4(["chase"])
-            D5(["speak"])
-            D6(["code_review"])
-            D7(["scout"])
+            D1(["guard<br/>Security Scan"])
+            D2(["fetch<br/>Research"])
+            D3(["sniff<br/>Code Gen"])
+            D4(["chase<br/>Performance"])
+            D5(["speak<br/>Chat"])
+            D6(["code_review<br/>Review"])
+            D7(["scout<br/>Planning"])
             D8(["+ 17 more"])
         end
 
