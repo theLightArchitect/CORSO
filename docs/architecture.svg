@@ -35,7 +35,7 @@
   <!-- === Layer 1: RUACH (Gateway) === -->
   <rect x="190" y="205" width="440" height="44" rx="8" fill="#4a90d9" filter="url(#shadow)"/>
   <text x="410" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">RUACH</text>
-  <text x="410" y="241" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Gateway — Auth · Rate Limit · Complexity Scoring (0-100)</text>
+  <text x="410" y="241" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Gateway — Auth · Rate Limit · Complexity Scoring (0-100) · speak, read_file, write_file, list_directory</text>
 
   <!-- Arrow: RUACH → IESOUS -->
   <line x1="410" y1="249" x2="410" y2="272" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
@@ -123,13 +123,9 @@
   <!-- Raphael tool tags -->
   <text x="657" y="486" text-anchor="middle" font-size="7" fill="#868e96">chase · health · scale · logs</text>
 
-  <!-- === RUACH Direct Execution strip === -->
-  <rect x="70" y="612" width="340" height="32" rx="6" fill="#4a90d9" opacity="0.85"/>
-  <text x="240" y="632" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">RUACH Direct — speak, read_file, write_file, list_directory</text>
-
   <!-- Complexity box -->
-  <rect x="425" y="612" width="310" height="32" rx="6" fill="#2d3436"/>
-  <text x="580" y="628" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Complexity Fan-Out: Simple (0-30) · Medium (31-60) · Complex (61-100)</text>
+  <rect x="70" y="612" width="665" height="32" rx="6" fill="#2d3436"/>
+  <text x="402" y="632" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">Complexity-Driven Fan-Out: Simple (0-30) · Medium (31-60) · Complex (61-100)</text>
 
   <!-- Arrow: Domains → AI Providers -->
   <line x1="410" y1="655" x2="410" y2="678" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
