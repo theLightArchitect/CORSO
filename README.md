@@ -25,6 +25,73 @@ CORSO uses a Trinity-layered pipeline that executes entirely in-process with zer
 
 All three layers are Rust library calls — no microservices, no network hops, single binary deployment.
 
+### Trinity Pipeline
+
+Every request flows through three named layers, each with distinct failure semantics:
+
+| Layer | Name | Role | On Failure |
+|-------|------|------|------------|
+| 1 | **RUACH** | Gateway — auth, rate limiting, input sanitization, complexity scoring (0-100) | Degrades gracefully |
+| 2 | **IESOUS** | Orchestrator — hero selection, DAG-based parallel execution (max 5 concurrent) | Retry with exponential backoff |
+| 3 | **ADONAI** | Validator — CORSO Protocol enforcement (49 rules, 7 pillars), security scanning | Fail-secure (deny request) |
+
+### Archangels and Heroes
+
+IESOUS delegates work to **4 Archangels**, each commanding specialized **Heroes**:
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ffffff', 'lineColor': '#6c757d'}}}%%
+graph TD
+    subgraph TRINITY ["Trinity Pipeline"]
+        R(["RUACH<br/>Gateway"])
+        I(["IESOUS<br/>Orchestrator"])
+        A(["ADONAI<br/>Validator"])
+        R ==> I ==> A
+    end
+
+    I --> U & M & G & RA
+
+    subgraph URIEL ["URIEL — Code"]
+        U(["Archangel"])
+        D(["DAVID<br/>Shepherd King"])
+        EZ(["EZEKIEL<br/>Visionary"])
+        PA(["PAUL<br/>Apostle"])
+        SO(["SOLOMON<br/>Wisdom"])
+        U --> D & EZ & PA & SO
+    end
+
+    subgraph MICHAEL ["MICHAEL — Security"]
+        M(["Archangel"])
+        EL(["ELIJAH<br/>Fire-Bearer"])
+        ELI(["ELISHA<br/>Successor"])
+        JO(["JOSHUA<br/>Warrior"])
+        M --> EL & ELI & JO
+    end
+
+    subgraph GABRIEL ["GABRIEL — Knowledge"]
+        G(["Archangel"])
+        ME(["MELCHIZEDEK<br/>Priest-King"])
+        DA(["DANIEL<br/>Interpreter"])
+        G --> ME & DA
+    end
+
+    subgraph RAPHAEL ["RAPHAEL — Infrastructure"]
+        RA(["Archangel"])
+        MO(["MOSES<br/>Lawgiver"])
+        RA --> MO
+    end
+
+    classDef trinity fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef archangel fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
+    classDef hero fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
+
+    class R,I,A trinity
+    class U,M,G,RA archangel
+    class D,EZ,PA,SO,EL,ELI,JO,ME,DA,MO hero
+```
+
+RUACH scores request complexity (0-100). Simple requests (0-30) route to a single hero. Complex requests (61-100) fan out to multiple heroes in parallel, with ADONAI validating the combined output against all 49 protocol rules.
+
 ### C0RS0 Pack Build Cycle
 
 CORSO includes a 7-phase build pipeline for structured development:
