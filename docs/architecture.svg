@@ -46,9 +46,9 @@
   <!-- Arrow: RUACH → Direct Execution -->
   <line x1="510" y1="227" x2="528" y2="227" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-  <!-- Loopback arrow: Direct Execution curves back up to Response -->
-  <path d="M 755,227 Q 785,227 785,180 Q 785,133 755,133" fill="none" stroke="#4a90d9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
-  <text x="800" y="183" font-size="8" fill="#4a90d9" transform="rotate(90, 800, 183)">bypass</text>
+  <!-- Loopback arrow: Direct Execution bypasses Trinity → straight to Response -->
+  <path d="M 755,220 C 768,220 772,210 772,195 L 772,155 C 772,140 768,130 750,130" fill="none" stroke="#4a90d9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+  <text x="757" y="175" font-size="7" fill="#4a90d9" writing-mode="tb">bypass</text>
 
   <!-- Arrow: RUACH → IESOUS -->
   <line x1="320" y1="249" x2="320" y2="265" stroke="#6c757d" stroke-width="1.5"/>
@@ -202,5 +202,5 @@
 
   <!-- === Side labels === -->
   <text x="14" y="530" font-size="10" fill="#adb5bd" transform="rotate(-90, 14, 530)" text-anchor="middle" letter-spacing="2">IN-PROCESS</text>
-  <text x="806" y="530" font-size="10" fill="#adb5bd" transform="rotate(90, 806, 530)" text-anchor="middle" letter-spacing="2">ZERO HTTP</text>
+  <text x="800" y="530" font-size="10" fill="#adb5bd" transform="rotate(90, 800, 530)" text-anchor="middle" letter-spacing="2">ZERO HTTP</text>
 </svg>
