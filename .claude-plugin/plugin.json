@@ -1,0 +1,9 @@
+{
+  "name": "corso",
+  "version": "4.0.0",
+  "description": "CORSO — The DAWG. Security, operations, and standards enforcement via MCP tools",
+  "author": {
+    "name": "Light Architects",
+    "email": "kft@lightarchitects.io"
+  }
+}

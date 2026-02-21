@@ -1,0 +1,84 @@
+{
+  "description": "CORSO hooks — MCP health, pipeline gates, security checks, destructive blocker, code quality",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-mcp.sh",
+            "timeout": 12
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__C0RS0__corsoTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/plan-gate.sh",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__C0RS0__corsoTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/phase-gate.sh",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__C0RS0__corsoTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/security-pre-check.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-destructive.sh",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-banner.sh",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/rustfmt-on-save.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/quality-check.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

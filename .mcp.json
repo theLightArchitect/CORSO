@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "C0RS0": {
+      "command": "${HOME}/.corso/bin/corso",
+      "env": {
+        "RUST_LOG": "info"
+      }
+    }
+  }
+}
