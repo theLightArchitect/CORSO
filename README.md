@@ -22,15 +22,28 @@ CORSO sits between Claude Code and the user's codebase, providing security scann
 CORSO uses a Trinity-layered pipeline that executes entirely in-process with zero HTTP overhead:
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4a90d9', 'lineColor': '#6c757d'}}}%%
 flowchart TD
-    A[Incoming Request] --> B[RUACH — Gateway]
-    B -->|classify complexity\nselect tier| C[IESOUS — Orchestrator]
-    C -->|route to domain\nexecute tools| D[ADONAI — Validator]
-    D -->|validate output\nenforce standards| E[Response]
+    A([Incoming Request]) ==> B
 
-    style B fill:#4a90d9,color:#fff
-    style C fill:#d4a034,color:#fff
-    style D fill:#50b87a,color:#fff
+    subgraph TRINITY ["Trinity Pipeline — Zero HTTP Overhead"]
+        direction TB
+        B[RUACH\nGateway]
+        B -->|classify complexity\nselect tier| C[IESOUS\nOrchestrator]
+        C -->|route to domain\nexecute tools| D[ADONAI\nValidator]
+    end
+
+    D ==> E([Response])
+
+    classDef gateway fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef orch fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
+    classDef valid fill:#50b87a,color:#fff,stroke:#40a066,stroke-width:2px
+    classDef io fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
+
+    class B gateway
+    class C orch
+    class D valid
+    class A,E io
 ```
 
 All three layers are Rust library calls — no microservices, no network hops, single binary deployment.
@@ -41,20 +54,36 @@ CORSO includes a 7-phase build pipeline for structured development:
 
 ```mermaid
 flowchart LR
-    S[SCOUT\nPlan] --> F[FETCH\nResearch]
-    F --> SN[SNIFF\nAnalysis]
-    SN --> G[GUARD\nSecurity]
-    G --> C[CHASE\nTest]
-    C --> H[HUNT\nExecute]
-    H --> SC[SCRUM\nReview]
+    subgraph PLAN ["Phase 1 — Plan"]
+        S([SCOUT])
+    end
+    subgraph ANALYZE ["Phases 2–5 — Analyze"]
+        F([FETCH]) --> SN([SNIFF])
+        SN --> G([GUARD])
+        G --> C([CHASE])
+    end
+    subgraph SHIP ["Phases 6–7 — Ship"]
+        H([HUNT]) --> SC([SCRUM])
+    end
 
-    style S fill:#6c5ce7,color:#fff
-    style F fill:#0984e3,color:#fff
-    style SN fill:#00b894,color:#fff
-    style G fill:#d63031,color:#fff
-    style C fill:#e17055,color:#fff
-    style H fill:#fdcb6e,color:#333
-    style SC fill:#a29bfe,color:#fff
+    S ==> F
+    C ==> H
+
+    classDef plan fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
+    classDef research fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
+    classDef code fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
+    classDef security fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
+    classDef test fill:#e17055,color:#fff,stroke:#c45f48,stroke-width:2px
+    classDef execute fill:#fdcb6e,color:#333,stroke:#dbb35e,stroke-width:2px
+    classDef review fill:#a29bfe,color:#fff,stroke:#8b84e0,stroke-width:2px
+
+    class S plan
+    class F research
+    class SN code
+    class G security
+    class C test
+    class H execute
+    class SC review
 ```
 
 Each phase has its own skill definition, domain context, and quality gates.
