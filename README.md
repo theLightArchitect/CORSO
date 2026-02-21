@@ -36,7 +36,7 @@ flowchart TD
     D ==> E([Response])
 
     classDef gateway fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
-    classDef orch fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
+    classDef orch fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-width:2px
     classDef valid fill:#50b87a,color:#fff,stroke:#40a066,stroke-width:2px
     classDef io fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
 
