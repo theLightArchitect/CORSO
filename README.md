@@ -28,9 +28,9 @@ flowchart TD
 
     subgraph TRINITY ["Trinity Pipeline — Zero HTTP Overhead"]
         direction TB
-        B[RUACH\nGateway]
-        B -->|classify complexity\nselect tier| C[IESOUS\nOrchestrator]
-        C -->|route to domain\nexecute tools| D[ADONAI\nValidator]
+        B["RUACH<br/>Gateway"]
+        B -->|"classify complexity<br/>select tier"| C["IESOUS<br/>Orchestrator"]
+        C -->|"route to domain<br/>execute tools"| D["ADONAI<br/>Validator"]
     end
 
     D ==> E([Response])
