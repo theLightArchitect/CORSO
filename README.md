@@ -53,31 +53,31 @@ graph TD
 
     subgraph URIEL ["URIEL — Code"]
         U(["Archangel"])
-        D(["DAVID<br/>Shepherd King"])
-        EZ(["EZEKIEL<br/>Visionary"])
-        PA(["PAUL<br/>Apostle"])
-        SO(["SOLOMON<br/>Wisdom"])
+        D(["DAVID<br/>Code Generation"])
+        EZ(["EZEKIEL<br/>Architecture Design"])
+        PA(["PAUL<br/>Code Review & Tests"])
+        SO(["SOLOMON<br/>Knowledge Search"])
         U --> D & EZ & PA & SO
     end
 
     subgraph MICHAEL ["MICHAEL — Security"]
         M(["Archangel"])
-        EL(["ELIJAH<br/>Fire-Bearer"])
-        ELI(["ELISHA<br/>Successor"])
-        JO(["JOSHUA<br/>Warrior"])
+        EL(["ELIJAH<br/>Security Compliance"])
+        ELI(["ELISHA<br/>Red Team & Pentesting"])
+        JO(["JOSHUA<br/>Risk Management"])
         M --> EL & ELI & JO
     end
 
     subgraph GABRIEL ["GABRIEL — Knowledge"]
         G(["Archangel"])
-        ME(["MELCHIZEDEK<br/>Priest-King"])
-        DA(["DANIEL<br/>Interpreter"])
+        ME(["MELCHIZEDEK<br/>Research"])
+        DA(["DANIEL<br/>Performance Analysis"])
         G --> ME & DA
     end
 
     subgraph RAPHAEL ["RAPHAEL — Infrastructure"]
         RA(["Archangel"])
-        MO(["MOSES<br/>Lawgiver"])
+        MO(["MOSES<br/>Deployment"])
         RA --> MO
     end
 
