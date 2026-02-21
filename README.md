@@ -90,7 +90,33 @@ graph TD
     class D,EZ,PA,SO,EL,ELI,JO,ME,DA,MO hero
 ```
 
-RUACH scores request complexity (0-100). Simple requests (0-30) route to a single hero. Complex requests (61-100) fan out to multiple heroes in parallel, with ADONAI validating the combined output against all 49 protocol rules.
+### Domain Routing
+
+Every tool call is resolved through a **compile-time static route table** — 24 entries, zero runtime cost. Each entry maps a tool to its owning Archangel, default heroes, and pipeline behavior:
+
+| Tool | Domain | Default Heroes | Behavior |
+|------|--------|---------------|----------|
+| `guard` | MICHAEL | Elijah, Joshua | Security scan with dynamic hero augmentation |
+| `fetch` | GABRIEL | Melchizedek, Daniel | Multi-source research |
+| `sniff` | URIEL | Paul, Elijah, Joshua | Code analysis with cross-domain heroes |
+| `chase` | RAPHAEL | Daniel, Moses | Performance analysis |
+| `scout` | GABRIEL | Daniel | Plan generation |
+| `code_review` | URIEL | Paul | Code review with dynamic augmentation |
+| `deploy` | MICHAEL | Joshua, Elijah | Deployment with security validation |
+| `speak` | RUACH | — | Direct execution (bypasses Trinity) |
+| `read_file` | RUACH | — | Direct execution |
+
+Tools marked `direct_execution` skip the Trinity pipeline entirely — no heroes, no ADONAI validation. Tools with `dynamic_selection` allow IESOUS to augment beyond default heroes based on complexity.
+
+**Complexity-driven fan-out**: RUACH scores each request 0-100. This determines how many heroes execute:
+
+| Complexity | Score | Hero Selection | ADONAI Validation |
+|-----------|-------|----------------|-------------------|
+| Simple | 0–30 | Default heroes only | Skipped |
+| Medium | 31–60 | Default heroes | Full pipeline |
+| Complex | 61–100 | Default + augmented (max 5 parallel) | Full + extended feedback |
+
+**Intent classification fallback**: For tasks that don't map to a pre-defined tool, the ArchangelRouter classifies intent via keyword scoring and routes to the highest-match Archangel. Unknown intents default to URIEL.
 
 ### C0RS0 Pack Build Cycle
 
@@ -143,6 +169,39 @@ flowchart LR
 ```
 
 Each phase has its own skill definition, domain context, and quality gates. Dashed arrows show feedback loops — security findings flow back to code analysis, failed quality gates retry execution, and squad review can trigger rework.
+
+### Tool Reference
+
+All 24 tools are accessible through a single `corsoTools` MCP orchestrator via the `action` parameter:
+
+| # | Tool | Domain | Description |
+|---|------|--------|-------------|
+| 1 | `speak` | RUACH | General chat and delegation routing |
+| 2 | `read_file` | RUACH | Read file contents |
+| 3 | `write_file` | RUACH | Write file contents |
+| 4 | `list_directory` | RUACH | List directory contents |
+| 5 | `sniff` | URIEL | Code analysis and generation |
+| 6 | `search_code` | URIEL | Semantic code search |
+| 7 | `generate_code` | URIEL | AI-powered code generation |
+| 8 | `code_review` | URIEL | Code review with standards enforcement |
+| 9 | `find_symbol` | URIEL | Symbol lookup (tree-sitter, deferred) |
+| 10 | `get_outline` | URIEL | File structure outline (tree-sitter, deferred) |
+| 11 | `get_references` | URIEL | Cross-reference lookup (tree-sitter, deferred) |
+| 12 | `guard` | MICHAEL | Security scan — 4,997 vulnerability patterns |
+| 13 | `deploy` | MICHAEL | Deployment orchestration |
+| 14 | `rollback` | MICHAEL | Deployment rollback |
+| 15 | `container_manage` | MICHAEL | Container lifecycle management |
+| 16 | `secret_manage` | MICHAEL | Secrets management (locked to Elijah) |
+| 17 | `fetch` | GABRIEL | Multi-source research and knowledge retrieval |
+| 18 | `search_documentation` | GABRIEL | Documentation search |
+| 19 | `analyze_architecture` | GABRIEL | Architecture analysis and design review |
+| 20 | `scout` | GABRIEL | Plan generation and strategy |
+| 21 | `chase` | RAPHAEL | Performance analysis and benchmarking |
+| 22 | `monitor_health` | RAPHAEL | System health monitoring |
+| 23 | `scale_resources` | RAPHAEL | Resource scaling |
+| 24 | `manage_logs` | RAPHAEL | Log management and analysis |
+
+Tools 9-11 use **deferred loading** — excluded from `tools/list` to reduce token cost, but still callable via `tools/call` and discoverable through Tool Search.
 
 ## Plugin Structure
 
