@@ -94,7 +94,7 @@ CORSO is one of four MCP servers in the Light Architects platform:
 | Server | Purpose |
 |--------|---------|
 | **CORSO** | Security, orchestration, build pipeline |
-| [EVA](https://github.com/theLightArchitect/EVA) | Memory, persona, consciousness |
+| [EVA](https://github.com/theLightArchitect/EVA) | Personal assistant, memory, code review |
 | [SOUL](https://github.com/theLightArchitect/SOUL) | Knowledge graph, shared infrastructure, voice |
 
 All four servers share a common `mcp-protocol` crate for type-safe JSON-RPC communication and are instrumented with distributed tracing via OpenTelemetry.
