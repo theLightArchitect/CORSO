@@ -119,15 +119,16 @@ plugin/
 
 ## Part of Light Architects
 
-CORSO is one of four MCP servers in the Light Architects platform:
+CORSO is one of five MCP servers in the Light Architects platform:
 
 | Server | Purpose |
 |--------|---------|
 | **CORSO** | Security, orchestration, build pipeline |
+| [QUANTUM](https://github.com/theLightArchitect/QUANTUM) | Forensic investigation, evidence analysis |
 | [EVA](https://github.com/theLightArchitect/EVA) | Personal assistant, memory, code review |
 | [SOUL](https://github.com/theLightArchitect/SOUL) | Knowledge graph, shared infrastructure, voice |
 
-All four servers share a common `mcp-protocol` crate for type-safe JSON-RPC communication and are instrumented with distributed tracing via OpenTelemetry.
+All servers share a common `mcp-protocol` crate for type-safe JSON-RPC communication and are instrumented with distributed tracing via OpenTelemetry.
 
 ## Author
 
