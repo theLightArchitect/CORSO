@@ -35,10 +35,14 @@ flowchart TD
 
     D ==> E([Response])
 
-    classDef layer fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:2px
+    classDef gateway fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef orch fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
+    classDef valid fill:#50b87a,color:#fff,stroke:#40a066,stroke-width:2px
     classDef io fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
 
-    class B,C,D layer
+    class B gateway
+    class C orch
+    class D valid
     class A,E io
 ```
 
@@ -65,9 +69,21 @@ flowchart LR
     S ==> F
     C ==> H
 
-    classDef phase fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:2px
+    classDef plan fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
+    classDef research fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
+    classDef code fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
+    classDef security fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
+    classDef test fill:#e17055,color:#fff,stroke:#c45f48,stroke-width:2px
+    classDef execute fill:#fdcb6e,color:#333,stroke:#dbb35e,stroke-width:2px
+    classDef review fill:#a29bfe,color:#fff,stroke:#8b84e0,stroke-width:2px
 
-    class S,F,SN,G,C,H,SC phase
+    class S plan
+    class F research
+    class SN code
+    class G security
+    class C test
+    class H execute
+    class SC review
 ```
 
 Each phase has its own skill definition, domain context, and quality gates.
