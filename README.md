@@ -21,14 +21,16 @@ CORSO sits between Claude Code and the user's codebase, providing security scann
 
 CORSO uses a Trinity-layered pipeline that executes entirely in-process with zero HTTP overhead:
 
-```
-Request → RUACH (Gateway)
-            ↓ classify complexity, select tier
-         IESOUS (Orchestrator)
-            ↓ route to domain, execute tools
-         ADONAI (Validator)
-            ↓ validate output, enforce standards
-         Response
+```mermaid
+flowchart TD
+    A[Incoming Request] --> B[RUACH — Gateway]
+    B -->|classify complexity\nselect tier| C[IESOUS — Orchestrator]
+    C -->|route to domain\nexecute tools| D[ADONAI — Validator]
+    D -->|validate output\nenforce standards| E[Response]
+
+    style B fill:#4a90d9,color:#fff
+    style C fill:#d4a034,color:#fff
+    style D fill:#50b87a,color:#fff
 ```
 
 All three layers are Rust library calls — no microservices, no network hops, single binary deployment.
@@ -37,13 +39,23 @@ All three layers are Rust library calls — no microservices, no network hops, s
 
 CORSO includes a 7-phase build pipeline for structured development:
 
-1. **SCOUT** — Requirements gathering, complexity triage, plan generation
-2. **FETCH** — Research and knowledge retrieval
-3. **SNIFF** — Code analysis and architecture review
-4. **GUARD** — Security scanning (4,997 vulnerability patterns)
-5. **CHASE** — Testing and performance analysis
-6. **HUNT** — Plan execution with phase gates and feedback loops
-7. **SCRUM** — Squad review with cross-critique
+```mermaid
+flowchart LR
+    S[SCOUT\nPlan] --> F[FETCH\nResearch]
+    F --> SN[SNIFF\nAnalysis]
+    SN --> G[GUARD\nSecurity]
+    G --> C[CHASE\nTest]
+    C --> H[HUNT\nExecute]
+    H --> SC[SCRUM\nReview]
+
+    style S fill:#6c5ce7,color:#fff
+    style F fill:#0984e3,color:#fff
+    style SN fill:#00b894,color:#fff
+    style G fill:#d63031,color:#fff
+    style C fill:#e17055,color:#fff
+    style H fill:#fdcb6e,color:#333
+    style SC fill:#a29bfe,color:#fff
+```
 
 Each phase has its own skill definition, domain context, and quality gates.
 
