@@ -33,12 +33,26 @@
   <text x="202" y="192" font-size="10" fill="#adb5bd">in-process · zero HTTP</text>
 
   <!-- === Layer 1: RUACH (Gateway) === -->
-  <rect x="190" y="205" width="440" height="44" rx="8" fill="#4a90d9" filter="url(#shadow)"/>
-  <text x="410" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">RUACH</text>
-  <text x="410" y="241" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Gateway — Auth · Rate Limit · Complexity Scoring (0-100) · speak, read_file, write_file, list_directory</text>
+  <rect x="130" y="205" width="380" height="44" rx="8" fill="#4a90d9" filter="url(#shadow)"/>
+  <text x="320" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">RUACH</text>
+  <text x="320" y="241" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Gateway — Auth · Rate Limit · Complexity Scoring (0-100)</text>
+
+  <!-- Direct Execution box to the right of RUACH -->
+  <rect x="530" y="205" width="225" height="44" rx="8" fill="#f8f9fa" stroke="#4a90d9" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="642" y="222" text-anchor="middle" font-size="10" font-weight="600" fill="#4a90d9">Direct Execution</text>
+  <text x="642" y="236" text-anchor="middle" font-size="8" fill="#636e72">speak · read_file</text>
+  <text x="642" y="247" text-anchor="middle" font-size="8" fill="#636e72">write_file · list_directory</text>
+
+  <!-- Arrow: RUACH → Direct Execution -->
+  <line x1="510" y1="227" x2="528" y2="227" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- Loopback arrow: Direct Execution curves back up to Response -->
+  <path d="M 755,227 Q 785,227 785,180 Q 785,133 755,133" fill="none" stroke="#4a90d9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+  <text x="800" y="183" font-size="8" fill="#4a90d9" transform="rotate(90, 800, 183)">bypass</text>
 
   <!-- Arrow: RUACH → IESOUS -->
-  <line x1="410" y1="249" x2="410" y2="272" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="320" y1="249" x2="320" y2="265" stroke="#6c757d" stroke-width="1.5"/>
+  <line x1="320" y1="265" x2="410" y2="272" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
   <!-- === Layer 2: IESOUS (Orchestrator) === -->
   <rect x="190" y="274" width="440" height="44" rx="8" fill="#d4a034" filter="url(#shadow)"/>
