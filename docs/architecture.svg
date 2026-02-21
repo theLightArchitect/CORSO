@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 920" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#6c757d"/>
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#4a90d9"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="920" fill="#ffffff" rx="8"/>
+
+  <!-- ===== CLIENT ===== -->
+  <rect x="220" y="20" width="380" height="48" rx="8" fill="#f8f9fa" stroke="#6c757d" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="410" y="50" text-anchor="middle" font-size="15" font-weight="600" fill="#333">Claude Code — MCP Client</text>
+
+  <!-- Arrow: Client → Tool Search -->
+  <line x1="410" y1="68" x2="410" y2="98" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="430" y="88" font-size="10" fill="#868e96">stdio</text>
+
+  <!-- ===== TOOL SEARCH ===== -->
+  <rect x="190" y="100" width="440" height="48" rx="8" fill="#e8f4f8" stroke="#0984e3" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="410" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#0984e3">Tool Search</text>
+  <text x="410" y="138" text-anchor="middle" font-size="10" fill="#636e72">BM25 + Regex — 85% token reduction via deferred loading</text>
+
+  <!-- Arrow: Tool Search → Trinity -->
+  <line x1="410" y1="148" x2="410" y2="178" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ===== TRINITY PIPELINE CONTAINER ===== -->
+  <rect x="30" y="180" width="760" height="620" rx="12" fill="#fafafa" stroke="#dee2e6" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="50" y="202" font-size="12" font-weight="700" fill="#868e96" letter-spacing="1">TRINITY PIPELINE</text>
+  <text x="202" y="202" font-size="10" fill="#adb5bd">in-process · zero HTTP</text>
+
+  <!-- === Layer 1: RUACH (Gateway) === -->
+  <rect x="190" y="215" width="440" height="48" rx="8" fill="#4a90d9" filter="url(#shadow)"/>
+  <text x="410" y="237" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">RUACH</text>
+  <text x="410" y="253" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Gateway — Auth · Rate Limit · Sanitization</text>
+
+  <!-- Arrow: RUACH → IESOUS -->
+  <line x1="410" y1="263" x2="410" y2="288" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- === Layer 2: IESOUS (Orchestrator) === -->
+  <rect x="190" y="290" width="440" height="48" rx="8" fill="#d4a034" filter="url(#shadow)"/>
+  <text x="410" y="312" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">IESOUS</text>
+  <text x="410" y="328" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Orchestrator — Routing · Session · Context</text>
+
+  <!-- Arrow: IESOUS → Domain Routing -->
+  <line x1="410" y1="338" x2="410" y2="368" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- === Domain Routing (8 tools in 2 rows) === -->
+  <rect x="55" y="370" width="710" height="160" rx="10" fill="#ffffff" stroke="#dee2e6" stroke-width="1" filter="url(#shadow)"/>
+  <text x="75" y="392" font-size="11" font-weight="600" fill="#636e72">DOMAIN ROUTING — 24 Tools</text>
+
+  <!-- Row 1 -->
+  <rect x="75" y="402" width="152" height="46" rx="6" fill="#d63031"/>
+  <text x="151" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">guard</text>
+  <text x="151" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Security Scan</text>
+
+  <rect x="243" y="402" width="152" height="46" rx="6" fill="#0984e3"/>
+  <text x="319" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">fetch</text>
+  <text x="319" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Research</text>
+
+  <rect x="411" y="402" width="152" height="46" rx="6" fill="#00b894"/>
+  <text x="487" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">sniff</text>
+  <text x="487" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Code Gen</text>
+
+  <rect x="579" y="402" width="152" height="46" rx="6" fill="#e17055"/>
+  <text x="655" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">chase</text>
+  <text x="655" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Performance</text>
+
+  <!-- Row 2 -->
+  <rect x="75" y="462" width="152" height="46" rx="6" fill="#636e72"/>
+  <text x="151" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">speak</text>
+  <text x="151" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Chat</text>
+
+  <rect x="243" y="462" width="152" height="46" rx="6" fill="#636e72"/>
+  <text x="319" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">code_review</text>
+  <text x="319" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Review</text>
+
+  <rect x="411" y="462" width="152" height="46" rx="6" fill="#6c5ce7"/>
+  <text x="487" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">scout</text>
+  <text x="487" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Planning</text>
+
+  <rect x="579" y="462" width="152" height="46" rx="6" fill="#636e72"/>
+  <text x="655" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">+17 more</text>
+  <text x="655" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">PTC Support</text>
+
+  <!-- Arrow: Domain Routing → AI Providers -->
+  <line x1="410" y1="530" x2="410" y2="555" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- === Multi-Provider AI Routing === -->
+  <rect x="55" y="558" width="710" height="100" rx="10" fill="#ffffff" stroke="#dee2e6" stroke-width="1" filter="url(#shadow)"/>
+  <text x="75" y="580" font-size="11" font-weight="600" fill="#636e72">MULTI-PROVIDER AI ROUTING — Automatic Failover + Circuit Breakers</text>
+
+  <!-- Provider boxes -->
+  <rect x="75" y="592" width="120" height="50" rx="6" fill="#6c5ce7"/>
+  <text x="135" y="614" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Anthropic</text>
+  <text x="135" y="630" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Primary</text>
+
+  <rect x="211" y="592" width="120" height="50" rx="6" fill="#6c5ce7"/>
+  <text x="271" y="614" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Mistral</text>
+  <text x="271" y="630" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Tier 2</text>
+
+  <rect x="347" y="592" width="120" height="50" rx="6" fill="#6c5ce7"/>
+  <text x="407" y="614" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Cerebras</text>
+  <text x="407" y="630" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Tier 2</text>
+
+  <rect x="483" y="592" width="120" height="50" rx="6" fill="#6c5ce7"/>
+  <text x="543" y="614" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Perplexity</text>
+  <text x="543" y="630" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Research</text>
+
+  <rect x="619" y="592" width="120" height="50" rx="6" fill="#6c5ce7"/>
+  <text x="679" y="614" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Ollama</text>
+  <text x="679" y="630" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Local</text>
+
+  <!-- Failover arrows between providers -->
+  <line x1="195" y1="617" x2="211" y2="617" stroke="#adb5bd" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="331" y1="617" x2="347" y2="617" stroke="#adb5bd" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="467" y1="617" x2="483" y2="617" stroke="#adb5bd" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="603" y1="617" x2="619" y2="617" stroke="#adb5bd" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Arrow: AI Providers → ADONAI -->
+  <line x1="410" y1="658" x2="410" y2="688" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- === Layer 3: ADONAI (Validator) === -->
+  <rect x="190" y="690" width="440" height="48" rx="8" fill="#50b87a" filter="url(#shadow)"/>
+  <text x="410" y="712" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">ADONAI</text>
+  <text x="410" y="728" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">Validator — Schema · Sanitize · Audit Log</text>
+
+  <!-- Arrow: ADONAI → HITL -->
+  <line x1="410" y1="738" x2="410" y2="768" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- === HITL Gate === -->
+  <g transform="translate(410, 790)">
+    <polygon points="0,-22 70,0 0,22 -70,0" fill="#d63031" stroke="#b52828" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="0" y="-4" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">HITL</text>
+    <text x="0" y="9" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.85)">Approval Gate</text>
+  </g>
+
+  <!-- Arrow: HITL → Response -->
+  <line x1="410" y1="812" x2="410" y2="845" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ===== RESPONSE ===== -->
+  <rect x="220" y="848" width="380" height="48" rx="8" fill="#f8f9fa" stroke="#6c757d" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="410" y="878" text-anchor="middle" font-size="15" font-weight="600" fill="#333">Response → Claude Code</text>
+
+  <!-- === Side labels === -->
+  <text x="14" y="330" font-size="10" fill="#adb5bd" transform="rotate(-90, 14, 330)" text-anchor="middle" letter-spacing="2">IN-PROCESS</text>
+  <text x="806" y="330" font-size="10" fill="#adb5bd" transform="rotate(90, 806, 330)" text-anchor="middle" letter-spacing="2">ZERO HTTP</text>
+</svg>
