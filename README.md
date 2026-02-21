@@ -22,79 +22,91 @@ CORSO sits between Claude Code and the user's codebase, providing security scann
 CORSO uses a Trinity-layered pipeline that executes entirely in-process with zero HTTP overhead:
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ffffff', 'lineColor': '#6c757d'}}}%%
-flowchart TD
-    A(["Claude Code<br/>MCP Client"]) ==> TS
+block-beta
+    columns 1
 
-    subgraph TS ["Tool Search — BM25 + Regex"]
-        direction LR
-        TS1["Deferred Loading<br/>85%+ token reduction"]
+    A["Claude Code — MCP Client"]:1
+    space:1
+
+    block:TS:1
+        columns 1
+        TS1["Tool Search — BM25 + Regex · 85%+ Token Reduction"]
     end
 
-    TS1 ==> B
+    space:1
 
-    subgraph TRINITY ["Trinity Pipeline — Zero HTTP Overhead"]
-        direction TB
-        B["RUACH<br/>Gateway"]
-        B -->|"classify complexity<br/>select tier"| C["IESOUS<br/>Orchestrator"]
+    block:TRINITY:1
+        columns 1
 
-        subgraph DOMAIN ["Domain Routing — 24 Tools"]
-            direction LR
-            D1(["guard<br/>Security Scan"])
-            D2(["fetch<br/>Research"])
-            D3(["sniff<br/>Code Gen"])
-            D4(["chase<br/>Performance"])
-            D5(["speak<br/>Chat"])
-            D6(["code_review<br/>Review"])
-            D7(["scout<br/>Planning"])
-            D8(["+ 17 more"])
+        B["RUACH — Gateway · Classify Complexity · Select Tier"]:1
+
+        C["IESOUS — Orchestrator"]:1
+
+        block:DOMAIN:1
+            columns 4
+            D1["guard<br/>Security Scan"]
+            D2["fetch<br/>Research"]
+            D3["sniff<br/>Code Gen"]
+            D4["chase<br/>Performance"]
+            D5["speak<br/>Chat"]
+            D6["code_review<br/>Review"]
+            D7["scout<br/>Planning"]
+            D8["+17 more"]
         end
 
-        C ==> DOMAIN
-
-        DOMAIN ==> AI
-
-        subgraph AI ["Multi-Provider AI Routing"]
-            direction LR
-            P1(["Anthropic"])
-            P2(["Mistral"])
-            P3(["Cerebras"])
-            P4(["Perplexity"])
-            P5(["Ollama"])
-            P1 -.->|failover| P2
-            P2 -.->|failover| P3
+        block:AI:1
+            columns 5
+            P1["Anthropic"]
+            P2["Mistral"]
+            P3["Cerebras"]
+            P4["Perplexity"]
+            P5["Ollama"]
         end
 
-        AI ==> D["ADONAI<br/>Validator"]
-        D -->|"validate output<br/>enforce standards"| HITL
+        D["ADONAI — Validator · Enforce Standards"]:1
     end
 
-    subgraph HITL ["HITL — Approval Gates"]
-        direction LR
-        H1{"High-stakes?"}
-        H1 -->|no| H2([Auto-approve])
-        H1 -->|yes| H3([User Review])
+    space:1
+
+    block:HITL:1
+        columns 2
+        H1["Auto-approve"]
+        H2["User Review"]
     end
 
-    HITL ==> E(["Response"])
+    space:1
+    E["Response"]:1
 
-    classDef gateway fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
-    classDef orch fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
-    classDef valid fill:#50b87a,color:#fff,stroke:#40a066,stroke-width:2px
-    classDef tool fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
-    classDef provider fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:1px
-    classDef search fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
-    classDef gate fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
-    classDef io fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
+    A --> TS1
+    TS1 --> B
+    B --> C
+    C --> DOMAIN
+    DOMAIN --> AI
+    AI --> D
+    D --> HITL
+    HITL --> E
 
-    class B gateway
-    class C orch
-    class D valid
-    class D1,D2,D3,D4,D5,D6,D7,D8 tool
-    class P1,P2,P3,P4,P5 provider
-    class TS1 search
-    class H1 gate
-    class A,E,H2,H3 io
+    style A fill:#f8f9fa,color:#333,stroke:#6c757d
+    style TS1 fill:#0984e3,color:#fff,stroke:#0873c4
+    style B fill:#4a90d9,color:#fff,stroke:#3a7bc8
+    style C fill:#d4a034,color:#fff,stroke:#b8892d
+    style D fill:#50b87a,color:#fff,stroke:#40a066
+    style D1 fill:#2d3436,color:#fff,stroke:#636e72
+    style D2 fill:#2d3436,color:#fff,stroke:#636e72
+    style D3 fill:#2d3436,color:#fff,stroke:#636e72
+    style D4 fill:#2d3436,color:#fff,stroke:#636e72
+    style D5 fill:#2d3436,color:#fff,stroke:#636e72
+    style D6 fill:#2d3436,color:#fff,stroke:#636e72
+    style D7 fill:#2d3436,color:#fff,stroke:#636e72
+    style D8 fill:#2d3436,color:#fff,stroke:#636e72
+    style P1 fill:#6c5ce7,color:#fff,stroke:#5a4bd6
+    style P2 fill:#6c5ce7,color:#fff,stroke:#5a4bd6
+    style P3 fill:#6c5ce7,color:#fff,stroke:#5a4bd6
+    style P4 fill:#6c5ce7,color:#fff,stroke:#5a4bd6
+    style P5 fill:#6c5ce7,color:#fff,stroke:#5a4bd6
+    style H1 fill:#f8f9fa,color:#333,stroke:#6c757d
+    style H2 fill:#d63031,color:#fff,stroke:#b52828
+    style E fill:#f8f9fa,color:#333,stroke:#6c757d
 ```
 
 All three layers are Rust library calls — no microservices, no network hops, single binary deployment.
