@@ -53,41 +53,37 @@
 
   <!-- === Domain Routing (8 tools in 2 rows) === -->
   <rect x="55" y="370" width="710" height="160" rx="10" fill="#ffffff" stroke="#dee2e6" stroke-width="1" filter="url(#shadow)"/>
-  <text x="75" y="392" font-size="11" font-weight="600" fill="#636e72">DOMAIN ROUTING — 24 Tools</text>
+  <text x="75" y="392" font-size="11" font-weight="600" fill="#636e72">DOMAIN ROUTING — 5 Domains, 24 Tools</text>
 
-  <!-- Row 1 -->
-  <rect x="75" y="402" width="152" height="46" rx="6" fill="#d63031"/>
-  <text x="151" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">guard</text>
-  <text x="151" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Security Scan</text>
+  <!-- Row 1: 4 Archangel domains -->
+  <rect x="75" y="402" width="152" height="56" rx="6" fill="#d63031"/>
+  <text x="151" y="422" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">MICHAEL</text>
+  <text x="151" y="436" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Security &amp; Deployment</text>
+  <text x="151" y="450" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.6)">guard, deploy, rollback +2</text>
 
-  <rect x="243" y="402" width="152" height="46" rx="6" fill="#0984e3"/>
-  <text x="319" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">fetch</text>
-  <text x="319" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Research</text>
+  <rect x="243" y="402" width="152" height="56" rx="6" fill="#00b894"/>
+  <text x="319" y="422" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">URIEL</text>
+  <text x="319" y="436" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Code &amp; Architecture</text>
+  <text x="319" y="450" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.6)">sniff, code_review, search +4</text>
 
-  <rect x="411" y="402" width="152" height="46" rx="6" fill="#00b894"/>
-  <text x="487" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">sniff</text>
-  <text x="487" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Code Gen</text>
+  <rect x="411" y="402" width="152" height="56" rx="6" fill="#0984e3"/>
+  <text x="487" y="422" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GABRIEL</text>
+  <text x="487" y="436" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Knowledge &amp; Strategy</text>
+  <text x="487" y="450" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.6)">fetch, scout, docs, arch</text>
 
-  <rect x="579" y="402" width="152" height="46" rx="6" fill="#e17055"/>
-  <text x="655" y="422" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">chase</text>
-  <text x="655" y="438" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Performance</text>
+  <rect x="579" y="402" width="152" height="56" rx="6" fill="#e17055"/>
+  <text x="655" y="422" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">RAPHAEL</text>
+  <text x="655" y="436" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Infrastructure &amp; Ops</text>
+  <text x="655" y="450" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.6)">chase, health, scale, logs</text>
 
-  <!-- Row 2 -->
-  <rect x="75" y="462" width="152" height="46" rx="6" fill="#636e72"/>
-  <text x="151" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">speak</text>
-  <text x="151" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Chat</text>
+  <!-- Row 2: RUACH direct + summary -->
+  <rect x="75" y="472" width="320" height="46" rx="6" fill="#4a90d9"/>
+  <text x="235" y="492" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">RUACH — Direct Execution</text>
+  <text x="235" y="508" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">speak, read_file, write_file, list_directory (bypass Trinity)</text>
 
-  <rect x="243" y="462" width="152" height="46" rx="6" fill="#636e72"/>
-  <text x="319" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">code_review</text>
-  <text x="319" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Review</text>
-
-  <rect x="411" y="462" width="152" height="46" rx="6" fill="#6c5ce7"/>
-  <text x="487" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">scout</text>
-  <text x="487" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Planning</text>
-
-  <rect x="579" y="462" width="152" height="46" rx="6" fill="#636e72"/>
-  <text x="655" y="482" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">+17 more</text>
-  <text x="655" y="498" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">PTC Support</text>
+  <rect x="411" y="472" width="320" height="46" rx="6" fill="#2d3436"/>
+  <text x="571" y="492" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Complexity-Driven Fan-Out</text>
+  <text x="571" y="508" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.7)">Simple (0-30) · Medium (31-60) · Complex (61-100)</text>
 
   <!-- Arrow: Domain Routing → AI Providers -->
   <line x1="410" y1="530" x2="410" y2="555" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arrowhead)"/>
