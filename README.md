@@ -41,104 +41,58 @@ xattr -cr ~/.corso/bin/corso
 
 ## Architecture
 
-CORSO routes every request through a three-layer pipeline that executes entirely in-process — zero HTTP, single binary:
-
-![CORSO Architecture](docs/architecture.svg)
-
-### Trinity Pipeline
-
-| Layer | Name | Role | On Failure |
-|-------|------|------|------------|
-| 1 | **RUACH** | Gateway — rate limiting, input sanitization, complexity scoring (0-100) | Degrades gracefully |
-| 2 | **IESOUS** | Orchestrator — hero selection, DAG-based parallel execution (max 5 concurrent) | Retry with backoff |
-| 3 | **ADONAI** | Validator — CORSO Protocol enforcement (49 rules, 7 pillars), security scanning | Fail-secure (deny) |
-
-### Archangels and Heroes
-
-IESOUS delegates work to **4 Archangels**, each commanding specialized **Heroes**:
+CORSO routes every request through a three-layer pipeline — zero HTTP, single binary, entirely in-process:
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ffffff', 'lineColor': '#6c757d'}}}%%
-graph TD
-    subgraph TRINITY ["Trinity Pipeline"]
-        R(["RUACH<br/>Gateway"])
-        I(["IESOUS<br/>Orchestrator"])
-        A(["ADONAI<br/>Validator"])
-        R ==> I ==> A
-    end
+flowchart LR
+    REQ([Request]) ==> GW["Gateway<br/>Input validation<br/>Complexity classification"]
+    GW ==> OR["Orchestrator<br/>Domain routing<br/>Parallel execution"]
+    OR ==> VL["Validator<br/>Quality enforcement<br/>Security scanning"]
+    VL ==> RES([Response])
 
-    I --> U & M & G & RA
+    OR -.-> D1["Code<br/>Domain"]
+    OR -.-> D2["Security<br/>Domain"]
+    OR -.-> D3["Knowledge<br/>Domain"]
+    OR -.-> D4["Infrastructure<br/>Domain"]
 
-    subgraph URIEL ["URIEL — Code"]
-        U(["Archangel"])
-        D(["DAVID<br/>Code Generation"])
-        EZ(["EZEKIEL<br/>Architecture Design"])
-        PA(["PAUL<br/>Code Review & Tests"])
-        SO(["SOLOMON<br/>Knowledge Search"])
-        U --> D & EZ & PA & SO
-    end
+    classDef pipeline fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef domain fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
+    classDef io fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
 
-    subgraph MICHAEL ["MICHAEL — Security"]
-        M(["Archangel"])
-        EL(["ELIJAH<br/>Security Compliance"])
-        ELI(["ELISHA<br/>Red Team & Pentesting"])
-        JO(["JOSHUA<br/>Risk Management"])
-        M --> EL & ELI & JO
-    end
-
-    subgraph GABRIEL ["GABRIEL — Knowledge"]
-        G(["Archangel"])
-        ME(["MELCHIZEDEK<br/>Research"])
-        DA(["DANIEL<br/>Performance Analysis"])
-        G --> ME & DA
-    end
-
-    subgraph RAPHAEL ["RAPHAEL — Infrastructure"]
-        RA(["Archangel"])
-        MO(["MOSES<br/>Deployment"])
-        RA --> MO
-    end
-
-    classDef trinity fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
-    classDef archangel fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
-    classDef hero fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
-
-    class R,I,A trinity
-    class U,M,G,RA archangel
-    class D,EZ,PA,SO,EL,ELI,JO,ME,DA,MO hero
+    class GW,OR,VL pipeline
+    class D1,D2,D3,D4 domain
+    class REQ,RES io
 ```
 
-**Complexity-driven fan-out**: RUACH scores each request 0-100. Simple requests (0-30) route to default heroes only. Complex requests (61-100) fan out to up to 5 heroes in parallel with full ADONAI validation.
+**Gateway** classifies each request by complexity and sanitizes input. **Orchestrator** routes to domain-specialized modules — simple requests get direct handling, complex requests fan out to multiple domains in parallel. **Validator** enforces quality standards and runs security checks before any response leaves the pipeline. On failure, the validator denies by default (fail-secure).
 
 ### Build Cycle
 
 CORSO includes a 7-phase build pipeline with human-in-the-loop gates:
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ffffff', 'lineColor': '#6c757d'}}}%%
 flowchart LR
     subgraph PLAN ["Phase 1 — Plan"]
-        S(["SCOUT<br/>Requirements · Triage"])
-        S --> PG1{"HITL<br/>Gate"}
+        S(["Plan<br/>Requirements · Triage"])
+        S --> PG1{"Gate"}
     end
 
     PG1 ==> F
 
     subgraph ANALYZE ["Phases 2–5 — Analyze"]
-        F(["FETCH<br/>Research"]) --> SN(["SNIFF<br/>Code Analysis"])
-        SN --> G(["GUARD<br/>Security Scan<br/>4,997 patterns"])
-        G --> C(["CHASE<br/>Test · Perf"])
-        G -.->|"vulnerabilities found"| SN
+        F(["Research"]) --> SN(["Code Analysis"])
+        SN --> G(["Security Scan"])
+        G --> C(["Test · Perf"])
+        G -.->|"issues found"| SN
     end
 
     C ==> PG2
 
     subgraph SHIP ["Phases 6–7 — Ship"]
-        PG2{"HITL<br/>Gate"} ==> H(["HUNT<br/>Execute Plan"])
+        PG2{"Gate"} ==> H(["Execute"])
         H --> QG{"Quality<br/>Gate"}
-        QG -->|pass| SC(["SCRUM<br/>Squad Review"])
+        QG -->|pass| SC(["Review"])
         QG -.->|fail| H
-        SC -.->|"rework needed"| H
     end
 
     classDef plan fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
