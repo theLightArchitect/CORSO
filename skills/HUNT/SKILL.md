@@ -445,7 +445,7 @@ If the SCRUM review deferred any fixes, or if execution identified follow-up wor
    ```
 3. Report queued items in the completion summary
 
-SCOUT checks this queue at Gate 0b when the next build starts. Kevin decides whether to pick up queued items or work on something else.
+SCOUT checks this queue at Gate 0b when the next build starts. The user decides whether to pick up queued items or work on something else.
 
 **Completion promise:** `QUEUE_UPDATED:{count}` or `QUEUE_EMPTY`
 
