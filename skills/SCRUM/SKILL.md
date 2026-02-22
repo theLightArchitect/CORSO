@@ -22,7 +22,7 @@ At SCRUM start, discover active siblings:
 
 1. List directories in `~/.soul/helix/` that contain `identity.md`
 2. Read each `identity.md` to extract: name, role, strands, voice rules
-3. **Exclude** `user` (Kevin is the human moderator, not a reviewed sibling)
+3. **Exclude** `user` (the user is the human moderator, not a reviewed sibling)
 4. **Exclude** `claude` (Claude IS the moderator — doesn't assess itself)
 5. Build the squad roster dynamically from discovered siblings
 
@@ -50,9 +50,9 @@ Determine which protocol to follow:
 
 **General Review Mode (Section B)** — Use when:
 - No plan file argument provided
-- Kevin says "TEAM HELIX", "squad review", "scrum meeting", "both of you review"
+- the user says "TEAM HELIX", "squad review", "scrum meeting", "both of you review"
 - Any request for multi-perspective expert analysis on a topic, architecture, code, or idea
-- Kevin says "EVA and CORSO review this"
+- the user says "EVA and CORSO review this"
 
 **After mode detection, proceed to Pre-Flight, then jump to the appropriate section.**
 
@@ -265,7 +265,7 @@ If enrichment fails (SOUL unavailable, search_replace fails):
 
 ### B1: Understand the Problem
 
-Parse Kevin's inquiry. Identify:
+Parse the user's inquiry. Identify:
 - **Type**: Code review? Architecture decision? Plan critique? Idea validation? Conflict resolution? Debugging?
 - **Scope**: Single file? Multi-crate? Conceptual? Organizational?
 - **Stakes**: What's at risk if we get this wrong?
@@ -307,7 +307,7 @@ Each sibling receives an **identical YAML prompt structure** (only `role` and `a
 team_helix_scrum: true
 phase: assessment
 role: {SIBLING_NAME}
-subject: "{Kevin's exact words}"
+subject: "{the user's exact words}"
 context: |
   {Phase B2 summary — what archives revealed}
 assessment_lens:
@@ -376,7 +376,7 @@ output_format:
 
 Claude (you) now evaluates **all inputs** (each sibling's B3 assessment + B4 cross-critique) against:
 
-1. **Full context of the inquiry** — What did Kevin actually ask? Does the analysis answer it?
+1. **Full context of the inquiry** — What did the user actually ask? Does the analysis answer it?
 2. **Technical reality** — Are the assessments grounded? Any hallucinated concerns or missed real ones?
 3. **Light Architects standards** — Coding Guidelines v4.0, Gold Standard Planning Framework, CORSO Protocol 7 pillars
 4. **Practical feasibility** — Can the suggested fixes actually be implemented? In what order? What's the net benefit?
@@ -415,7 +415,7 @@ options:
 
 **If "Finalize"** — Proceed to B6 (Unified Output).
 
-**If "Redirect focus"** — Kevin provides a new angle. Re-enter at Round 1 with the new framing, but carry forward the B2 context already gathered (no redundant archive queries). This starts a fresh 3-round cycle.
+**If "Redirect focus"** — the user provides a new angle. Re-enter at Round 1 with the new framing, but carry forward the B2 context already gathered (no redundant archive queries). This starts a fresh 3-round cycle.
 
 **Why 3 rounds?** Round 1 exposes blind spots. Round 2 grounds in reality. Round 3 validates the synthesis. Skipping rounds produces ungrounded designs. The pattern was proven empirically: siblings improved from hallucinating enterprise complexity in Round 1 to shipping clean Rust trait designs in Round 3.
 
@@ -459,13 +459,13 @@ Ordered by net-benefit: what delivers the most value for the least effort.}
 
 | Priority | Fix | Maps to Gap | Owner | Effort | Net Benefit |
 |----------|-----|-------------|-------|--------|-------------|
-| 1 | {Action} | Gap #{n} | {EVA/CORSO/Claude/Kevin} | {S/M/L} | {Why this matters most} |
+| 1 | {Action} | Gap #{n} | {EVA/CORSO/Claude/the user} | {S/M/L} | {Why this matters most} |
 | 2 | {Action} | Gap #{n} | {Owner} | {Effort} | {Benefit} |
 
 ## Moderator's Note
 
 {Claude's synthesis. Where the squad agreed. Where they disagreed and why.
-What Kevin should focus on first. Any unresolved tensions that need Kevin's decision.}
+What the user should focus on first. Any unresolved tensions that need the user's decision.}
 
 ---
 
@@ -492,7 +492,7 @@ What Kevin should focus on first. Any unresolved tensions that need Kevin's deci
 
 ### B7: Log to Helix (Parallel)
 
-After delivering the output to Kevin, log the discussion to the SOUL vault:
+After delivering the output to the user, log the discussion to the SOUL vault:
 
 #### B7a: Global Helix Spine (Collective Memory)
 
@@ -524,7 +524,7 @@ params: {
 - Strands: that sibling's activated strands only (from identity.md)
 - Related: link to the global helix entry from B7a
 
-All writes (global + per-sibling) should happen **in parallel** after Kevin receives the output.
+All writes (global + per-sibling) should happen **in parallel** after the user receives the output.
 
 **Partial-write resilience**: If any write fails, log the failure as a warning note to `~/.soul/helix/user/entries/` and continue. Never block output delivery on logging failure. Never retry writes that failed — note it and move on.
 
@@ -594,7 +594,7 @@ The squad evaluates against these canonical sources:
 
 ## Feedback Loop (General Review Mode)
 
-If Kevin responds to the SCRUM output with follow-up questions, refinements, or decisions:
+If the user responds to the SCRUM output with follow-up questions, refinements, or decisions:
 1. Start a **new 3-round cycle** with the follow-up context
 2. Carry forward the original B2 archive context (no redundant queries)
 3. Produce an **addendum** to the original report (not a full rewrite)
