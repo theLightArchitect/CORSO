@@ -76,7 +76,7 @@ Before creating a new plan, check if there are queued follow-up items from previ
 
 1. Read `active.yaml` (resolved in 0a)
 2. If `queue:` section exists with `status: pending` items:
-   - Present the top-priority pending item to Kevin via `AskUserQuestion`:
+   - Present the top-priority pending item to the user via `AskUserQuestion`:
      ```
      Question: "There's a queued follow-up from a previous build. Work on this next?"
      Header: "Queue"
