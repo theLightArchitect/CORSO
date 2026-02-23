@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "C0RS0": {
-      "command": "${HOME}/.corso/bin/corso",
+      "command": "${CLAUDE_PLUGIN_ROOT}/servers/corso",
       "env": {
         "RUST_LOG": "info"
       }
