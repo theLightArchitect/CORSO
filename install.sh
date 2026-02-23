@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# CORSO Installer — Security-first MCP server for Claude Code
+# CORSO Standalone Installer — Security-first MCP server for Claude Code
+#
+# Recommended: Install via Claude Code plugin instead:
+#   claude plugins install theLightArchitect/CORSO
+#
+# This script downloads the binary from GitHub Releases for standalone use.
 # Usage: curl -fsSL https://raw.githubusercontent.com/theLightArchitect/CORSO/main/install.sh | bash
 set -euo pipefail
 
@@ -71,9 +76,12 @@ cat <<EOF
   CORSO installed successfully $VERSION_INFO
   Binary: $INSTALL_DIR/$BINARY_NAME
 
-  Next steps:
+  Note: For the full experience (agents, hooks, skills), use the plugin:
+    claude plugins install theLightArchitect/CORSO
 
-  1. Add CORSO to Claude Code:
+  To use this standalone binary, add to Claude Code:
+
+  1. Quick setup:
 
      claude mcp add C0RS0 -- $INSTALL_DIR/$BINARY_NAME
 
@@ -92,6 +100,5 @@ cat <<EOF
 
      "CORSO, scan this project for security issues"
      "CORSO, review this code"
-     "CORSO, what's the architecture of this codebase?"
 
 EOF
