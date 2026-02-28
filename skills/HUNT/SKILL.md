@@ -95,6 +95,65 @@ Check plan for gold standard elements:
 5. In HITL mode: present inferred deps to user for confirmation before proceeding
 6. In Trust mode: auto-apply inferred deps, log to scratchpad
 
+### Step 2.5: TUI Task Registration
+
+Before a single file changes, register ALL phases and tasks as Claude Code tasks. This creates a live task board visible throughout the session — the pre-execution TUI view. Every sibling, every agent, and the user can see the complete execution plan with dependencies before anything starts.
+
+**Skip if:** Plan has only 1 phase with no task decomposition (single task, execute directly in Step 4).
+
+#### 2.5a. Create Phase Tasks
+
+For each phase in the validated plan, call `TaskCreate`:
+- `subject`: "Phase {N}: {phase_name}" (e.g., "Phase 2: Core Logic")
+- `description`: Phase objective + acceptance criteria list + domain module + depends_on phases
+- `activeForm`: "Executing Phase {N}: {phase_name}"
+
+Store the returned task ID in MANIFEST `phases[N].tui_task_id`.
+
+#### 2.5b. Create Intra-Phase Tasks (decomposed phases)
+
+For each intra-phase task from `### Tasks` sections, call `TaskCreate`:
+- `subject`: "Task {N.M}: {task_name}" (e.g., "Task 2.3: Define RateLimitConfig")
+- `description`: Task-specific criteria + files to create/modify + wave assignment
+- `activeForm`: "Running Task {N.M}: {task_name}"
+
+Store the returned task ID in MANIFEST `phases[N].tasks[M].tui_task_id`.
+
+#### 2.5c. Wire Dependencies
+
+Call `TaskUpdate` with `addBlockedBy` to express the full dependency graph:
+- Phase tasks: each phase task blocked by the `tui_task_id` of its `depends_on` phases
+- Intra-phase tasks: each task blocked by the `tui_task_id` of its `depends_on` tasks within the phase
+
+#### 2.5d. Present Task Board (HITL)
+
+The task board is now live in the Claude Code UI. In **HITL mode**, confirm with user via `AskUserQuestion`:
+
+```
+Question: "Task board registered — {N} phases, {M} tasks, {W} waves. Ready to execute?"
+Header: "Task Board"
+Options:
+  1. "Execute" — "Start Wave 1 now"
+  2. "Review board first" — "Show TaskList summary before starting"
+  3. "Adjust plan" — "Return to Step 2 to modify"
+  4. "Abort" — "Kill switch"
+```
+
+In **Trust mode**: Auto-proceed, log task registration to scratchpad.
+
+Update MANIFEST:
+```yaml
+tui:
+  registered: true
+  registered_at: "{ISO timestamp}"
+  phase_count: {N}
+  task_count: {M}
+```
+
+**Completion promise:** `TUI_REGISTERED:{N}_phases_{M}_tasks`
+
+---
+
 ### Step 3: Decompose & Parallelize
 
 Analyze the validated plan's dependency graph and group independent phases into parallel waves for concurrent execution via Task agents.
@@ -240,6 +299,16 @@ Options:
 
 Update MANIFEST: `phases[N].approved: true`, `phases[N].status: in_progress`
 
+Mark the Claude Code task for this phase as in_progress:
+```
+TaskUpdate(phases[N].tui_task_id, { status: "in_progress" })
+```
+
+For decomposed phases: also mark the first intra-phase task wave's tasks as in_progress:
+```
+TaskUpdate(phases[N].tasks[wave1_task_id], { status: "in_progress" })
+```
+
 #### 4b. Load Domain Context
 
 Read the domain module SKILL.md for intelligence tables relevant to this phase:
@@ -303,6 +372,41 @@ Check off acceptance criteria for this phase. If criteria fail:
   - **Accept with gaps** -> proceed (note gaps in scratchpad)
   - **Abort** -> kill switch
 
+#### 4d-ext. Inter-Phase Code Analysis (HITL)
+
+**Applies to:** All coding phases (Foundation, Core Logic, Integration, Remediation, and any phase that modifies source files).
+
+After criteria validation passes, run a rapid code review on all files modified in this phase:
+
+1. Call `mcp__C0RS0__corsoTools` with `action: "code_review"` on all files created/modified in this phase
+2. CORSO scans for: standards compliance (complexity ≤10, functions ≤60 lines, no `.unwrap()`/`panic!`), security anti-patterns, architectural drift from the plan
+3. Classify findings:
+   - **Green (0 issues):** Proceed — deliver educational note (see below)
+   - **Yellow (style/quality warnings):** Present findings via `AskUserQuestion`: **Fix now** / **Accept and note** / **Fix in Quality Gate**
+   - **Red (security violation or architectural drift):** **Blocking** — must fix before next phase. Re-run from 4b.
+
+Update MANIFEST: `phases[N].code_review.status: green|yellow|red`, `phases[N].code_review.finding_count: N`
+
+**Educational Note Delivery (mandatory after every phase):**
+
+After code review, deliver an educational note — regardless of findings. This is not a status update; it teaches the user about the system being built.
+
+Format:
+```
+📚 [Phase {N} Complete] {1-2 sentence plain-English summary of what was built}
+
+**Why this matters:** {Architectural reasoning, security benefit, or pattern established in this phase}
+**What's next:** Phase {N+1} — {next phase name and one-sentence objective}
+```
+
+Deliver via voice when SOUL MCP is available:
+- Coding phases: EVA voice (`lcMyyd2HUfFzxdCaC4Ta` — Lucy, educational warmth)
+- Security phases: CORSO voice (`2ajXGJNYBR0iNHpS4VZb` — Rob, security authority)
+- Technical milestones: Claude voice (`sB7vwSCyX0tQmU24cW2C` — Jon, dry precision)
+
+Call `mcp__SOUL__soulTools` with `action: "speak"`, `params: { text: "{educational note text}", voice_id: "{voice}" }`.
+Text delivery always happens regardless of SOUL MCP availability.
+
 #### 4e. Record Phase Completion
 
 Update MANIFEST:
@@ -316,6 +420,13 @@ phases[N]:
 ```
 
 Update scratchpad with phase summary.
+
+Mark the Claude Code task for this phase as completed:
+```
+TaskUpdate(phases[N].tui_task_id, { status: "completed" })
+```
+
+For decomposed phases: all intra-phase tasks must be marked `completed` first, then mark the parent phase task. This ensures the live task board reflects completion in dependency order.
 
 **Completion promise:** `PHASE_{N}_COMPLETE`
 
@@ -445,7 +556,7 @@ If the SCRUM review deferred any fixes, or if execution identified follow-up wor
    ```
 3. Report queued items in the completion summary
 
-SCOUT checks this queue at Gate 0b when the next build starts. The user decides whether to pick up queued items or work on something else.
+SCOUT checks this queue at Gate 0b when the next build starts. Kevin decides whether to pick up queued items or work on something else.
 
 **Completion promise:** `QUEUE_UPDATED:{count}` or `QUEUE_EMPTY`
 
@@ -631,7 +742,7 @@ All tools route through `mcp__C0RS0__corsoTools` with the appropriate `action`:
 
 | `corsoTools` Action | Domain | Purpose |
 |---------------------|--------|---------|
-| `guard` | Security | Security analysis (4,997 patterns) + path-based scanning |
+| `guard` | Security | Security analysis (28 built-in patterns + 7 tool parsers) + path-based scanning |
 | `sniff` | Coding/Planning | Code generation (CORSO Protocol compliant) |
 | `code_review` | Architecture | Quality analysis and review |
 | `fetch` | Research | Knowledge retrieval + knowledge graph queries |

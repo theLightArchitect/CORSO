@@ -23,25 +23,42 @@ case "$ACTION" in
   speak|read_file|list) exit 0 ;;
 esac
 
-# Check for manifest
-MANIFEST=".corso/manifest.yaml"
-[ -f "$MANIFEST" ] || exit 0  # No manifest = not in pipeline
+# Resolve manifest — SOUL vault first (default), local fallback
+SOUL_ACTIVE="${HOME}/.soul/helix/corso/builds/active.yaml"
+LOCAL_MANIFEST=".corso/manifest.yaml"
 
-# Read status
-STATUS=$(grep '^status:' "$MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
+STATUS="unknown"
+TIER="unknown"
 
-# Only gate during execution
-[ "$STATUS" = "executing" ] || exit 0
+if [ -f "$SOUL_ACTIVE" ]; then
+  # SOUL vault mode: status and tier are indented under each active build entry
+  if grep -qE '^\s+status:\s+aborted' "$SOUL_ACTIVE" 2>/dev/null; then
+    STATUS="aborted"
+  elif grep -qE '^\s+status:\s+executing' "$SOUL_ACTIVE" 2>/dev/null; then
+    STATUS="executing"
+    # Tier lives in the per-plan manifest — best-effort read for advisory logging only
+    MANIFEST_PATH=$(grep -E '^\s+path:' "$SOUL_ACTIVE" 2>/dev/null | head -1 | awk '{print $2}')
+    if [ -f "$MANIFEST_PATH" ]; then
+      TIER=$(grep '^tier:' "$MANIFEST_PATH" 2>/dev/null | awk '{print $2}' || echo "unknown")
+    fi
+  fi
+elif [ -f "$LOCAL_MANIFEST" ]; then
+  STATUS=$(grep '^status:' "$LOCAL_MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
+  TIER=$(grep '^tier:' "$LOCAL_MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
+else
+  exit 0  # No manifest — not in pipeline
+fi
 
-# Check if abort was triggered
-ABORT_LINE=$(grep 'triggered:' "$MANIFEST" 2>/dev/null | tail -1)
-if echo "$ABORT_LINE" | grep -q 'true'; then
-  echo "BLOCKED: Pipeline abort triggered. All execution halted. See .corso/manifest.yaml for details."
+# Only gate during execution or on abort
+[ "$STATUS" = "executing" ] || [ "$STATUS" = "aborted" ] || exit 0
+
+# Block on abort
+if [ "$STATUS" = "aborted" ]; then
+  echo "BLOCKED: Pipeline abort triggered. All execution halted. Run /HUNT --resume or /SCOUT to start fresh."
   exit 2
 fi
 
 # Advisory: output current state to stderr (visible to user, non-blocking)
-TIER=$(grep '^tier:' "$MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
 echo "Pipeline executing (tier: ${TIER}). Action: ${ACTION}" >&2
 
 exit 0

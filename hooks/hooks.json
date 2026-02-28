@@ -1,14 +1,14 @@
 {
-  "description": "CORSO hooks — MCP health, pipeline gates, security checks, destructive blocker, code quality",
+  "description": "CORSO hooks — pipeline gates, security checks, destructive blocker, code quality",
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "mcp__*",
+        "matcher": "mcp__",
         "hooks": [
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-mcp.sh",
-            "timeout": 12
+            "timeout": 10
           }
         ]
       },
@@ -19,22 +19,12 @@
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/plan-gate.sh",
             "timeout": 3
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__C0RS0__corsoTools",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/phase-gate.sh",
             "timeout": 3
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__C0RS0__corsoTools",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/security-pre-check.sh",

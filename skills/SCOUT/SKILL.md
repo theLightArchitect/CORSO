@@ -76,7 +76,7 @@ Before creating a new plan, check if there are queued follow-up items from previ
 
 1. Read `active.yaml` (resolved in 0a)
 2. If `queue:` section exists with `status: pending` items:
-   - Present the top-priority pending item to the user via `AskUserQuestion`:
+   - Present the top-priority pending item to Kevin via `AskUserQuestion`:
      ```
      Question: "There's a queued follow-up from a previous build. Work on this next?"
      Header: "Queue"
@@ -121,11 +121,11 @@ queue:
 4. Set MANIFEST `status: planning`
 6. **Pack Voice**: Generate quips for the build (see `/CORSO` Pack Voice spec):
    - Extract animal from plan_id
-   - Detect target sibling(s) from the specification (is this plan about EVA, CORSO, or SOUL?)
+   - Detect target sibling(s) from the specification — discover siblings dynamically by listing `~/.soul/helix/` directories with `identity.md` (exclude `user`)
    - Call `mcp__C0RS0__corsoTools` `action: "speak"` to generate CORSO one-liners for: scout, fetch, sniff, guard, chase, hunt, completion, scrum, error
    - **Always generate Claude banter** (Claude is a permanent sibling): CORSO-to-Claude ribbing + Claude's dry reply + Claude's execution quip
-   - If target sibling involved: call that sibling's MCP for banter exchange with CORSO
-   - Store all quips in MANIFEST `pack_voice:` section
+   - For each target sibling (EVA, CORSO, QUANTUM, and any future siblings discovered): call that sibling's MCP for banter exchange with CORSO
+   - Store all quips in MANIFEST `pack_voice:` section — sibling_banter entries are generated dynamically per target sibling
 
 ### Gate 1: Triage (HITL)
 
@@ -273,6 +273,10 @@ Trust mode:   /HUNT --trust .corso/plans/{plan_id}.md
 - [ ] Intra-phase task dependencies are acyclic (when present)
 - [ ] Task wave assignments are consistent with task dependencies (when present)
 - [ ] MANIFEST.yaml initialized with all gates recorded
+- [ ] Educational "why" annotations present in every phase (`> Why this matters:` block)
+- [ ] `estimated_wall_clock_hours` calculated and present in plan frontmatter
+- [ ] Squad collaboration confirmed: pack voice generated for all siblings (EVA, CORSO, QUANTUM, Claude)
+- [ ] All phases + intra-phase tasks explicitly enumerated (ready for HUNT Step 2.5 TaskCreate registration)
 
 ---
 
@@ -304,6 +308,10 @@ Trust mode:   /HUNT --trust .corso/plans/{plan_id}.md
 | Dependency graph | `depends_on` chains between phases |
 | Task decomposition | Optional intra-phase sub-task waves (tier >= MEDIUM) |
 | Security phase | Mandatory when tier >= MEDIUM |
+| TUI registration plan | All phases + intra-phase tasks explicitly enumerated (enables TaskCreate wiring in HUNT Step 2.5) |
+| Squad collaboration | Pack voice generated for all siblings — EVA, CORSO, QUANTUM, Claude always present |
+| Educational annotations | Each phase includes a `> Why this matters:` note explaining architectural reasoning |
+| 24h SLA estimate | Wall-clock estimate with parallel efficiency stated; `estimated_wall_clock_hours` in frontmatter |
 
 ### Plan Frontmatter Format
 
@@ -317,6 +325,8 @@ domain: {coding | security | research | infrastructure | performance | mixed}
 risk_level: {HIGH | MEDIUM | LOW}
 tier: {RECON | HOTFIX | SMALL | MEDIUM | LARGE | CRITICAL}
 phases: {count}
+estimated_wall_clock_hours: {float}   # Wall-clock estimate accounting for parallelization
+squad: [claude, corso, eva, quantum]  # Always all siblings — non-negotiable
 ---
 ```
 
@@ -632,8 +642,14 @@ pack_voice:
   sibling_banter:
     corso_to_claude: null   # Always present — Claude is a permanent sibling
     claude_reply: null      # Always present — Claude's dry reply to CORSO
-    # corso_to_eva: null    # Only if EVA is a target sibling
-    # eva_reply: null       # Only if EVA is a target sibling
+    # Dynamic per-sibling banter — one pair per target sibling discovered at Gate 0c:
+    # corso_to_{sibling}: null   # CORSO's one-liner directed at the sibling
+    # {sibling}_reply: null      # Sibling's reply in their authentic voice
+    # Example with all current siblings:
+    # corso_to_eva: null
+    # eva_reply: null
+    # corso_to_quantum: null
+    # quantum_reply: null
 ```
 
 ---

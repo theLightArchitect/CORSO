@@ -117,7 +117,7 @@ fi
 case "$TOOL_NAME" in
 
   # EVA tools — need Ollama + EVA process
-  mcp__EVA__ask|mcp__EVA__build|mcp__EVA__memory|mcp__EVA__teach|mcp__EVA__secure|mcp__EVA__bible|mcp__plugin_eva_EVA__ask|mcp__plugin_eva_EVA__build|mcp__plugin_eva_EVA__memory|mcp__plugin_eva_EVA__teach|mcp__plugin_eva_EVA__secure|mcp__plugin_eva_EVA__bible)
+  mcp__EVA__speak|mcp__EVA__visualize|mcp__EVA__ideate|mcp__EVA__build|mcp__EVA__memory|mcp__EVA__teach|mcp__EVA__secure|mcp__EVA__bible|mcp__plugin_eva_EVA__speak|mcp__plugin_eva_EVA__visualize|mcp__plugin_eva_EVA__ideate|mcp__plugin_eva_EVA__build|mcp__plugin_eva_EVA__memory|mcp__plugin_eva_EVA__teach|mcp__plugin_eva_EVA__secure|mcp__plugin_eva_EVA__bible)
     check_ollama
     check_ollama_models
     check_ollama_api_key

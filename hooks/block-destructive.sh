@@ -18,8 +18,14 @@ case "$COMMAND" in
   *"git push --force master"*|*"git push -f master"*|*"git push -f origin master"*)
     echo "BLOCKED: force push to master."
     exit 2 ;;
-  *"git reset --hard"*)
-    echo "BLOCKED: git reset --hard discards uncommitted work."
+  # git reset --hard HEAD / bare reset — safe (discards local changes only, no commit loss)
+  # git reset --hard origin/* / upstream/* — safe (explicit sync intent)
+  # Block only patterns that rewind commit history or undo merges:
+  *"git reset --hard HEAD~"*|*"git reset --hard HEAD^"*)
+    echo "BLOCKED: git reset --hard HEAD~N / HEAD^ rewinds commit history. Use 'git revert' to safely undo commits, or confirm you mean to do this and run it yourself."
+    exit 2 ;;
+  *"git reset --hard ORIG_HEAD"*)
+    echo "BLOCKED: git reset --hard ORIG_HEAD undoes a merge or rebase. Run it yourself if intentional."
     exit 2 ;;
   *"drop table"*|*"DROP TABLE"*)
     echo "BLOCKED: DROP TABLE detected."
