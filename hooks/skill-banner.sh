@@ -2,7 +2,11 @@
 # Tokenless skill banner — C0RS0 Pack imagery + technical context
 # Zero tokens consumed. Shell stdout only.
 
-SKILL_NAME="${TOOL_INPUT_SKILL:-}"
+# Read skill name from tool input JSON (TOOL_INPUT_SKILL is not a Claude Code env var)
+INPUT=$(cat)
+SKILL_NAME=$(echo "$INPUT" | jq -r '.tool_input.skill // empty' 2>/dev/null)
+
+[ -z "$SKILL_NAME" ] && exit 0
 
 case "$SKILL_NAME" in
   *CORSO*) echo "🐺 CORSO: The pack assembles — personality, ops, and full build lifecycle" ;;

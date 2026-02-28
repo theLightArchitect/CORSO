@@ -30,12 +30,28 @@ case "$ACTION" in
     ;;
 esac
 
-# Check for manifest
-MANIFEST=".corso/manifest.yaml"
-[ -f "$MANIFEST" ] || exit 0  # No manifest = not in C0RS0 pipeline, allow
+# Resolve manifest — SOUL vault first (default), local fallback
+# SOUL mode: active builds tracked in ~/.soul/helix/corso/builds/active.yaml
+# Local mode: flat manifest at .corso/manifest.yaml
+SOUL_ACTIVE="${HOME}/.soul/helix/corso/builds/active.yaml"
+LOCAL_MANIFEST=".corso/manifest.yaml"
 
-# Read status (simple grep — manifest is flat YAML written by Claude)
-STATUS=$(grep '^status:' "$MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
+STATUS="unknown"
+if [ -f "$SOUL_ACTIVE" ]; then
+  # SOUL vault mode: status field is indented under each active build entry
+  if grep -qE '^\s+status:\s+planning' "$SOUL_ACTIVE" 2>/dev/null; then
+    STATUS="planning"
+  elif grep -qE '^\s+status:\s+aborted' "$SOUL_ACTIVE" 2>/dev/null; then
+    STATUS="aborted"
+  else
+    exit 0  # No blocking state in SOUL vault
+  fi
+elif [ -f "$LOCAL_MANIFEST" ]; then
+  # Local mode: top-level status field
+  STATUS=$(grep '^status:' "$LOCAL_MANIFEST" 2>/dev/null | awk '{print $2}' || echo "unknown")
+else
+  exit 0  # No manifest anywhere — not in C0RS0 pipeline, allow
+fi
 
 case "$STATUS" in
   planning)
